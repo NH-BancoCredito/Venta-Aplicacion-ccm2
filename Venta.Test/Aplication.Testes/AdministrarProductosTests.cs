@@ -21,6 +21,7 @@ namespace Venta.Test.Aplication.Testes
         public async Task ConsultarProductos()
         {
 
+            /// Assert.True(lista.count>0);
         }
     }
 }
