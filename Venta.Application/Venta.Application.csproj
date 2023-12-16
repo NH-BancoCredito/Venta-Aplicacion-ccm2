@@ -6,4 +6,16 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="CasosUso\AdministrarProductos\RegistrarProductos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Venta.Domain\Venta.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
