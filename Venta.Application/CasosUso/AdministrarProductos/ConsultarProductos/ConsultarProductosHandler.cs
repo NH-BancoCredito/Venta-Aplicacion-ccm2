@@ -19,11 +19,11 @@ namespace Venta.Application.CasosUso.AdministrarProductos.ConsultarProductos
             _mapper = mapper;
         }
 
-        public ConsultarProductosResponse Handle(ConsultarProductosRequest request)
+        public async Task<ConsultarProductosResponse> Handle(ConsultarProductosRequest request)
         {
             var response = new ConsultarProductosResponse();
 
-            var datos = _productoRepository.Consultar(request.FiltroPorNombre);
+            var datos = await _productoRepository.Consultar(request.FiltroPorNombre);
 
             response.Resultado = _mapper.Map<IEnumerable<ConsultaProducto>>(datos);
 
