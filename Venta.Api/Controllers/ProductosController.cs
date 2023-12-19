@@ -4,6 +4,9 @@ using Venta.Application.CasosUso.AdministrarProductos.ConsultarProductos;
 
 namespace Venta.Api.Controllers
 {
+
+    [Route("api/[controller]")]
+    [ApiController]
     public class ProductosController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -12,7 +15,8 @@ namespace Venta.Api.Controllers
             _mediator = mediator;
         }
 
-        public async Task<IActionResult> Consultar(ConsultarProductosRequest request)
+        [HttpGet("consultar")]
+        public async Task<IActionResult> Consultar([FromQuery] ConsultarProductosRequest request)
         {
             var response = await _mediator.Send(request);
 
