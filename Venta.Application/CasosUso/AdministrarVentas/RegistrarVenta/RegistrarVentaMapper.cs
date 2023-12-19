@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿  using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +13,8 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
         public RegistrarVentaMapper() {
             CreateMap<RegistrarVentaRequest, Models.Venta>()
                 .ForMember(dest => dest.Detalle, map => map.MapFrom(src => src.Productos));
+
+            CreateMap<RegistrarVentaDetalleRequest, Models.VentaDetalle>();
         }
     }
 }
