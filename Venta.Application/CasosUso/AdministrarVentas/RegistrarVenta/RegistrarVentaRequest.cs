@@ -1,12 +1,14 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Venta.Application.CasosUso.AdministrarProductos.ConsultarProductos;
 
 namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
 {
-    public class RegistrarVentaRequest
+    public class RegistrarVentaRequest: IRequest<RegistrarVentaResponse>
     {
 
         public int IdCliente {  get; set; }

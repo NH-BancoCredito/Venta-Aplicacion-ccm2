@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ using Models = Venta.Domain.Models;
 
 namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
 {
-    public  class RegistrarVentaHandler
+    public  class RegistrarVentaHandler:
+        IRequestHandler<RegistrarVentaRequest, RegistrarVentaResponse>
     {
         private readonly IVentaRepository _ventaRepository;
         private readonly IProductoRepository _productoRepository;
@@ -22,7 +24,7 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
             _mapper = mapper;
         }
 
-        public async Task<RegistrarVentaResponse> Registrar(RegistrarVentaRequest request)
+        public async Task<RegistrarVentaResponse> Handle(RegistrarVentaRequest request, CancellationToken cancellationToken)
         {
             var response = new RegistrarVentaResponse();
 
@@ -30,13 +32,13 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
             var venta = _mapper.Map<Models.Venta>(request);
 
             ///============Condiciones de validaciones
-            
-            
-            foreach(var detalle in venta.Detalle)
+
+
+            foreach (var detalle in venta.Detalle)
             {
                 //1 - Validar si el productos existe
                 var productoEncontrado = await _productoRepository.Consultar(detalle.IdProducto);
-                if(productoEncontrado?.IdProducto<=0)
+                if (productoEncontrado?.IdProducto <= 0)
                 {
                     throw new Exception($"Producto no encontrado, código {detalle.IdProducto}");
                 }
@@ -54,6 +56,7 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
 
             return response;
         }
+        
 
     }
 }
