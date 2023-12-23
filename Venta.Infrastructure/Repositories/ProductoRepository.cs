@@ -31,7 +31,7 @@ namespace Venta.Infrastructure.Repositories
 
         public async Task<IEnumerable<Producto>> Consultar(string nombre)
         {
-            return await _context.Productos.ToListAsync();
+            return await _context.Productos.Include(p=>p.Categoria).ToListAsync();
         }
 
         public Task<bool> Eliminar(Producto entity)
