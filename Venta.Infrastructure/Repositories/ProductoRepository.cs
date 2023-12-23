@@ -1,15 +1,24 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Venta.Domain.Models;
 using Venta.Domain.Repositories;
+using Venta.Infrastructure.Repositories.Base;
 
 namespace Venta.Infrastructure.Repositories
 {
     public class ProductoRepository : IProductoRepository
     {
+        private readonly VentaDbContext _context;
+        public ProductoRepository(VentaDbContext context)
+        {
+            _context = context;
+        }
+
+
         public Task<bool> Adicionar(Producto entity)
         {
             throw new NotImplementedException();
@@ -20,9 +29,9 @@ namespace Venta.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Producto>> Consultar(string nombre)
+        public async Task<IEnumerable<Producto>> Consultar(string nombre)
         {
-            throw new NotImplementedException();
+            return await _context.Productos.ToListAsync();
         }
 
         public Task<bool> Eliminar(Producto entity)

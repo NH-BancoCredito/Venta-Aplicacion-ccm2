@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,15 +9,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Venta.Domain.Repositories;
 using Venta.Infrastructure.Repositories;
+using Venta.Infrastructure.Repositories.Base;
 
 namespace Venta.Infrastructure
 {
     public static class DependencyInjection
     {
         public static void AddInfraestructure(
-            this IServiceCollection services
+            this IServiceCollection services, string connectionString
             )
         {
+
+            services.AddDbContext<VentaDbContext>(
+                options=>options.UseSqlServer(connectionString)
+                );
 
             services.AddRepositories();
         }
