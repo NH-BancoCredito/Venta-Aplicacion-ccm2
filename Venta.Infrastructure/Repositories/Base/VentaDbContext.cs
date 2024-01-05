@@ -33,7 +33,13 @@ namespace Venta.Infrastructure.Repositories.Base
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+
+
+            #region Configuraando las entidades en archivos de tipos separados
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(VentaDbContext).Assembly);
+            #endregion
+
+            #region Configuracion de las entidades en el mismo ModelCreating
             //modelBuilder.Entity<Categoria>(
             //    p =>
             //    {
@@ -42,54 +48,58 @@ namespace Venta.Infrastructure.Repositories.Base
             //        //p.Property(p => p.Nombre).HasColumnName("Nombre");
             //    }
             //    );
-            
-
-            modelBuilder.Entity<Cliente>(
-                p =>
-                {
-                    p.ToTable("Cliente");
-                    p.HasKey(c => c.IdCliente);
-                }
-                );
-
-            modelBuilder.Entity<Producto>(
-                p =>
-                {
-                    p.ToTable("Producto");
-                    p.HasKey(c => c.IdProducto);
-                    p.Property(c => c.PrecioUnitario).HasPrecision(2);
-
-                    p.HasOne(p => p.Categoria).WithMany(p => p.Productos)
-                        .HasForeignKey(p => p.IdCategoria);
-                }                
-                );
 
 
-            modelBuilder.Entity<Domain.Models.Venta>(
-               p =>
-               {
-                   p.ToTable("Venta");
-                   p.HasKey(c => c.IdVenta);
+            //modelBuilder.Entity<Cliente>(
+            //    p =>
+            //    {
+            //        p.ToTable("Cliente");
+            //        p.HasKey(c => c.IdCliente);
+            //    }
+            //    );
 
-                   p.HasOne(p => p.Cliente).WithMany(p => p.Ventas)
-                        .HasForeignKey(p => p.IdCliente);
-               }
-               );
+            //modelBuilder.Entity<Producto>(
+            //    p =>
+            //    {
+            //        p.ToTable("Producto");
+            //        p.HasKey(c => c.IdProducto);
+            //        p.Property(c => c.PrecioUnitario).HasPrecision(2);
+
+            //        p.HasOne(p => p.Categoria).WithMany(p => p.Productos)
+            //            .HasForeignKey(p => p.IdCategoria);
+            //    }                
+            //    );
 
 
-            modelBuilder.Entity<Domain.Models.VentaDetalle>(
-               p =>
-               {
-                   p.ToTable("VentaDetalle");
-                   p.HasKey(c => c.IdVentaDetalle);
+            //modelBuilder.Entity<Domain.Models.Venta>(
+            //   p =>
+            //   {
+            //       p.ToTable("Venta");
+            //       p.HasKey(c => c.IdVenta);
 
-                   p.HasOne(p => p.Venta).WithMany(p => p.Detalle)
-                        .HasForeignKey(p => p.IdVenta);
+            //       p.HasOne(p => p.Cliente).WithMany(p => p.Ventas)
+            //            .HasForeignKey(p => p.IdCliente);
+            //   }
+            //   );
 
-                   p.HasOne(p => p.Producto).WithMany(p => p.VentaDetalles)
-                       .HasForeignKey(p => p.IdProducto);
-               }
-               );
+
+            //modelBuilder.Entity<Domain.Models.VentaDetalle>(
+            //   p =>
+            //   {
+            //       p.ToTable("VentaDetalle");
+            //       p.HasKey(c => c.IdVentaDetalle);
+
+            //       p.HasOne(p => p.Venta).WithMany(p => p.Detalle)
+            //            .HasForeignKey(p => p.IdVenta);
+
+            //       p.HasOne(p => p.Producto).WithMany(p => p.VentaDetalles)
+            //           .HasForeignKey(p => p.IdProducto);
+            //   }
+            //   );
+
+            #endregion
+
+
         }
 
     }
