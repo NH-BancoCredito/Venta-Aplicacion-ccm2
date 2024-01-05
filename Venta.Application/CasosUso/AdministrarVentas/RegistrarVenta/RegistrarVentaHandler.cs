@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Venta.Application.Common;
 using Venta.Domain.Repositories;
 using Models = Venta.Domain.Models;
 
 namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
 {
     public  class RegistrarVentaHandler:
-        IRequestHandler<RegistrarVentaRequest, RegistrarVentaResponse>
+        IRequestHandler<RegistrarVentaRequest, IResult>
     {
         private readonly IVentaRepository _ventaRepository;
         private readonly IProductoRepository _productoRepository;
@@ -24,16 +25,18 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
             _mapper = mapper;
         }
 
-        public async Task<RegistrarVentaResponse> Handle(RegistrarVentaRequest request, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(RegistrarVentaRequest request, CancellationToken cancellationToken)
         {
-            var response = new RegistrarVentaResponse();
+            IResult response = null;
+
+            //var response = new RegistrarVentaResponse();
 
             var validator = new RegistrarVentaValidator();
             var validationResult = validator.Validate(request);
             if(!validationResult.IsValid)
             {
-                response.Mensages = validationResult.ToString("/");
-                return response;
+                return new FailureResult<DetailError>(new DetailError("00'",validationResult.ToString("/")));
+
             }
 
 
@@ -65,7 +68,7 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
             /// 
             await _ventaRepository.Registrar(venta);
 
-            response.VentaRegistrada = venta.IdVenta>0;
+            response = new SuccessResult<int>(venta.IdVenta);
 
             return response;
         }
