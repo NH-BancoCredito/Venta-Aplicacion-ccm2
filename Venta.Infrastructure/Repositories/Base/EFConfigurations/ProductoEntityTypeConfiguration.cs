@@ -1,12 +1,25 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Venta.Domain.Models;
 
 namespace Venta.Infrastructure.Repositories.Base.EFConfigurations
 {
-    internal class ProductoEntityTypeConfiguration
-    {
-    }
+    public class ProductoEntityTypeConfiguration
+	: IEntityTypeConfiguration<Producto>
+	{
+		public void Configure(EntityTypeBuilder<Producto> builder)
+		{
+			builder.ToTable("Producto");
+			builder.HasKey(c => c.IdProducto);
+			builder.Property(c => c.PrecioUnitario).HasPrecision(2);
+
+			builder.HasOne(p => p.Categoria).WithMany(p => p.Productos)
+				.HasForeignKey(p => p.IdCategoria);
+		}
+	}
 }
