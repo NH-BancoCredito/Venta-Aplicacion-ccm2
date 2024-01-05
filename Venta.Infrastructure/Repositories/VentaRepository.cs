@@ -4,14 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Venta.Domain.Repositories;
+using Venta.Infrastructure.Repositories.Base;
 
 namespace Venta.Infrastructure.Repositories
 {
     public class VentaRepository : IVentaRepository
     {
-        public Task<bool> Registrar(Domain.Models.Venta venta)
+
+        private readonly VentaDbContext _context;
+        public VentaRepository(VentaDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+
+        public async Task<bool> Registrar(Domain.Models.Venta venta)
+        {
+            _context.Ventas.Add(venta);
+
+            await _context.SaveChangesAsync(); //INSERT VENTA() VALUES(.....)
+
+            return venta.IdVenta>0;
+
         }
     }
 }

@@ -53,6 +53,10 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
 
             /// SI todo esta OK
             /// Registrar la venta - TODO
+            /// 
+            await _ventaRepository.Registrar(venta);
+
+            response.VentaRegistrada = venta.IdVenta>0;
 
             return response;
         }
