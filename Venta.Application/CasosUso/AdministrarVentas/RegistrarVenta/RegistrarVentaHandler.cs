@@ -28,6 +28,15 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
         {
             var response = new RegistrarVentaResponse();
 
+            var validator = new RegistrarVentaValidator();
+            var validationResult = validator.Validate(request);
+            if(!validationResult.IsValid)
+            {
+                response.Mensages = validationResult.ToString("/");
+                return response;
+            }
+
+
             //Aplicando el automapper para convertir el objeto Request a venta dominio
             var venta = _mapper.Map<Models.Venta>(request);
 
