@@ -33,13 +33,16 @@ namespace Venta.Infrastructure.Repositories.Base
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Categoria>(
-                p =>
-                {
-                    p.ToTable("Categoria");
-                    p.HasKey(c => c.IdCategoria);
-                }
-                );
+            
+            //modelBuilder.Entity<Categoria>(
+            //    p =>
+            //    {
+            //        p.ToTable("Categoria");
+            //        p.HasKey(c => c.IdCategoria);
+            //        //p.Property(p => p.Nombre).HasColumnName("Nombre");
+            //    }
+            //    );
+            
 
             modelBuilder.Entity<Cliente>(
                 p =>
