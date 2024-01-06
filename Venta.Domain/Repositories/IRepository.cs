@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Venta.Domain.Repositories
 {
-    public interface IVentaRepository: IRepository
+    public interface IRepository
     {
-        Task<bool> Registrar(Models.Venta venta);
     }
 }

@@ -7,7 +7,7 @@ using Venta.Domain.Models;
 
 namespace Venta.Domain.Repositories
 {
-    public  interface IProductoRepository
+    public  interface IProductoRepository: IRepository
     {
         Task<bool> Adicionar(Producto entity);
 
