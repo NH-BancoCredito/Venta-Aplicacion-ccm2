@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Venta.Application.Common;
 using Venta.Domain.Repositories;
 
 namespace Venta.Application.CasosUso.AdministrarProductos.ConsultarProductos
 {
     public class ConsultarProductosHandler:
-        IRequestHandler<ConsultarProductosRequest, ConsultarProductosResponse>
+        IRequestHandler<ConsultarProductosRequest, IResult>
     {
         private readonly IProductoRepository _productoRepository;
         private readonly IMapper _mapper;
@@ -22,16 +23,26 @@ namespace Venta.Application.CasosUso.AdministrarProductos.ConsultarProductos
         }
        
 
-        public async Task<ConsultarProductosResponse> Handle(ConsultarProductosRequest request, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(ConsultarProductosRequest request, CancellationToken cancellationToken)
         {
-            var response = new ConsultarProductosResponse();
 
-            var datos = await _productoRepository.Consultar(request.FiltroPorNombre);
+            IResult response = null;
 
-            response.Resultado = _mapper.Map<IEnumerable<ConsultaProducto>>(datos);
+            try
+            {
+               
+                var datos = await _productoRepository.Consultar(request.FiltroPorNombre);
+                response = new SuccessResult<IEnumerable<ConsultaProducto>>(
+                        _mapper.Map<IEnumerable<ConsultaProducto>>(datos)
+                        );
 
-
-            return response;
+                return response;
+            }
+            catch(Exception ex)
+            {
+                response = new FailureResult();
+                return response;
+            }
         }
     }
 }
