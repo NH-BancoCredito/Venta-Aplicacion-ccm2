@@ -28,16 +28,19 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
         public async Task<IResult> Handle(RegistrarVentaRequest request, CancellationToken cancellationToken)
         {
             IResult response = null;
+           
 
             //var response = new RegistrarVentaResponse();
 
-            var validator = new RegistrarVentaValidator();
-            var validationResult = validator.Validate(request);
-            if(!validationResult.IsValid)
-            {
-                return new FailureResult<DetailError>(new DetailError("00'",validationResult.ToString("/")));
+            
+            //var validator = new RegistrarVentaValidator();
+            //var validationResult = validator.Validate(request);
+            //if(!validationResult.IsValid)
+            //{
+            //    return new FailureResult<DetailError>(new DetailError("00'",validationResult.ToString("/")));
 
-            }
+            //}
+            
 
 
             //Aplicando el automapper para convertir el objeto Request a venta dominio
