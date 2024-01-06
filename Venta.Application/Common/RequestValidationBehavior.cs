@@ -33,7 +33,7 @@ namespace Venta.Application.Common
 
                 if (failures.Count != 0)
                 {
-                    throw new ValidationException(failures);
+                    throw new ValidationException(failures);                    
                 }
             }
 
