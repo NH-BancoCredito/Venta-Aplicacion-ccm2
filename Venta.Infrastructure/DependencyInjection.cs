@@ -33,5 +33,26 @@ namespace Venta.Infrastructure
 
             services.AddScoped<IVentaRepository, VentaRepository>();
         }
+
+        private static void SetHttpClient<TClient, TImplementation>(this IServiceCollection services, string constante) where TClient : class where TImplementation : class, TClient
+        {
+
+            services.AddHttpClient<TClient, TImplementation>(options =>
+            {
+                options.Timeout = TimeSpan.FromMilliseconds(2000);
+            })
+            .SetHandlerLifetime(TimeSpan.FromMinutes(30))
+            .ConfigurePrimaryHttpMessageHandler(() =>
+            {
+                var handler = new HttpClientHandler();
+                //if (EnvironmentVariableProvider.IsDevelopment())
+                //{
+                //    handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+                //}
+
+                return handler;
+            });
+        }
+
     }
 }
