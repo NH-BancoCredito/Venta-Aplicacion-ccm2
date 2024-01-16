@@ -9,6 +9,6 @@ namespace Venta.Domain.Services.WebServices
 {
     public  interface IStocksService
     {
-        Task<bool> ActualizarStock(Producto producto);
+        Task<bool> ActualizarStock(int idProducto, int cantidad);
     }
 }

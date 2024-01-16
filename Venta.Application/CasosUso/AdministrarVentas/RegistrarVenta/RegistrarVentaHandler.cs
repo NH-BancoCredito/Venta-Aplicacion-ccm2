@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Venta.Application.Common;
 using Venta.Domain.Repositories;
+using Venta.Domain.Services.WebServices;
 using Models = Venta.Domain.Models;
 
 namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
@@ -17,12 +18,15 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
         private readonly IVentaRepository _ventaRepository;
         private readonly IProductoRepository _productoRepository;
         private readonly IMapper _mapper;
+        private readonly IStocksService _stocksService;
 
-        public RegistrarVentaHandler(IVentaRepository ventaRepository, IProductoRepository productoRepository, IMapper mapper)
+        public RegistrarVentaHandler(IVentaRepository ventaRepository, IProductoRepository productoRepository, IMapper mapper,
+            IStocksService stocksService)
         {
             _ventaRepository = ventaRepository;
             _productoRepository = productoRepository;
             _mapper = mapper;
+            _stocksService = stocksService;
         }
 
         public async Task<IResult> Handle(RegistrarVentaRequest request, CancellationToken cancellationToken)
@@ -50,6 +54,7 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
 
                 //3 - Reservar el stock del producto - TODO
                 //3.1 --Si sucedio algun erro al reservar el producto , retornar una exepcion
+                await _stocksService.ActualizarStock(detalle.IdProducto, detalle.Cantidad);
             }
 
             /// SI todo esta OK
