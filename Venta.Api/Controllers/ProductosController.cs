@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Venta.Application.CasosUso.AdministrarProductos.ActualizarProducto;
 using Venta.Application.CasosUso.AdministrarProductos.ConsultarProductos;
 
 namespace Venta.Api.Controllers
@@ -17,6 +18,14 @@ namespace Venta.Api.Controllers
 
         [HttpGet("consultar")]
         public async Task<IActionResult> Consultar([FromQuery] ConsultarProductosRequest request)
+        {
+            var response = await _mediator.Send(request);
+
+            return Ok(response);
+        }
+
+        [HttpPut("actualizar")]
+        public async Task<IActionResult> Actualizar([FromBody] ActualizarProductoRequest request)
         {
             var response = await _mediator.Send(request);
 
