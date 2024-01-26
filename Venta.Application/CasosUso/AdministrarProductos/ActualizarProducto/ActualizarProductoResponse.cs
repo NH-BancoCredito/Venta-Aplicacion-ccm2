@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Venta.Application.CasosUso.AdministrarProductos.ActualizarProducto
 {
-    public class ActualizarProductoRequest
+    public class ActualizarProductoResponse
     {
     }
 }

@@ -41,6 +41,7 @@ namespace Venta.Infrastructure.Repositories
 
         public Task<bool> Modificar(Producto entity)
         {
+            //return await _context.Up (id);
             throw new NotImplementedException();
         }
     }
