@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Venta.CrossCutting\Venta.CrossCutting.csproj" />
     <ProjectReference Include="..\Venta.Domain\Venta.Domain.csproj" />
   </ItemGroup>
 

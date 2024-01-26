@@ -12,27 +12,29 @@ using Venta.Domain.Services.WebServices;
 using Venta.Infrastructure.Repositories;
 using Venta.Infrastructure.Repositories.Base;
 using Venta.Infrastructure.Services.WebServices;
+using Venta.CrossCutting.Configs;
+using Microsoft.Extensions.Configuration;
 
 namespace Venta.Infrastructure
 {
     public static class DependencyInjection
     {
         public static void AddInfraestructure(
-            this IServiceCollection services, string connectionString
+            this IServiceCollection services, IConfiguration configInfo
             )
         {
+            var appConfiguration = new AppConfiguration(configInfo);
 
             var httpClientBuilder =  services.AddHttpClient<IStocksService, StockService>(
                 options=>
                 {
-                    options.BaseAddress = new Uri("https://localhost:7065/");
+                    options.BaseAddress = new Uri(appConfiguration.UrlBaseServicioStock);
                     options.Timeout = TimeSpan.FromMilliseconds(2000);
                 }
-                );
-          
+                );           
 
             services.AddDbContext<VentaDbContext>(
-                options=>options.UseSqlServer(connectionString)
+                options=>options.UseSqlServer(appConfiguration.ConexionDBVentas)
                 );
 
             services.AddRepositories();

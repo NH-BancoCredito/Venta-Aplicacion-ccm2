@@ -27,7 +27,7 @@ builder.Services.AddApplication();
 
 //var connectionString = builder.Configuration.GetConnectionString("dbVenta-cnx");
 var connectionString = builder.Configuration["dbVenta-cnx"];
-builder.Services.AddInfraestructure(connectionString);
+builder.Services.AddInfraestructure(builder.Configuration);
 
 
 var app = builder.Build();
