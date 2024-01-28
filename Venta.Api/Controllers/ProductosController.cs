@@ -22,7 +22,6 @@ namespace Venta.Api.Controllers
         [HttpGet("consultar")]
         public async Task<IActionResult> Consultar([FromQuery] ConsultarProductosRequest request)
         {
-            //var dado1 = _configInfo["dbVenta-cnx"];
             var response = await _mediator.Send(request);
 
             return Ok(response);

@@ -24,7 +24,6 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
 
         public int Cantidad { get; set; }
 
-        public int Precio { get; set; }
 
     }
 

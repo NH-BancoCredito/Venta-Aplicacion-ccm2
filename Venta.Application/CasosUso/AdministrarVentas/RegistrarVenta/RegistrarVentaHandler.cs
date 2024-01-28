@@ -36,8 +36,6 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
             //Aplicando el automapper para convertir el objeto Request a venta dominio
             var venta = _mapper.Map<Models.Venta>(request);
 
-            ///============Condiciones de validaciones
-
 
             foreach (var detalle in venta.Detalle)
             {
@@ -47,18 +45,15 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
                 {
                     throw new Exception($"Producto no encontrado, código {detalle.IdProducto}");
                 }
+                //Actualizar el detalle del pedido con el precio del producto
+                detalle.Precio = productoEncontrado.PrecioUnitario;
 
-
-
-                //2 - Validar si existe stock suficiente - TODO
-
-                //3 - Reservar el stock del producto - TODO
-                //3.1 --Si sucedio algun erro al reservar el producto , retornar una exepcion
+                //2 - Reservar el stock del producto
+                //2.1 --Si sucedio algun erro al reservar el producto , retornar una exepcion
                 await _stocksService.ActualizarStock(detalle.IdProducto, detalle.Cantidad);
             }
 
-            /// SI todo esta OK
-            /// Registrar la venta - TODO
+            /// Registrar la venta
             /// 
             await _ventaRepository.Registrar(venta);
 

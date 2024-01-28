@@ -37,17 +37,31 @@ namespace Venta.Infrastructure
                 options=>options.UseSqlServer(appConfiguration.ConexionDBVentas)
                 );
 
-            services.AddRepositories();
+            services.AddRepositories(Assembly.GetExecutingAssembly());
         }
+       
 
-        private static void AddRepositories(this IServiceCollection services)
+        public static void
+                AddRepositories(this IServiceCollection services, Assembly assembly)
+
         {
-            services.AddScoped<IProductoRepository, ProductoRepository>();
 
-            services.AddScoped<IVentaRepository, VentaRepository>();
+
+            var respositoryTypes = assembly
+                .GetExportedTypes().Where(item => item.GetInterface(nameof(IRepository)) != null).ToList();
+
+
+            foreach (var repositoryType in respositoryTypes)
+            {
+                var repositoryInterfaceType = repositoryType.GetInterfaces()
+                    .Where(item => item.GetInterface(nameof(IRepository)) != null)
+                    .First();
+
+                services.AddScoped(repositoryInterfaceType, repositoryType);
+            }
         }
 
-        
+
 
     }
 }
