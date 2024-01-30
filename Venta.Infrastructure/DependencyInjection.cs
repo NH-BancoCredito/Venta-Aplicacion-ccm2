@@ -36,8 +36,8 @@ namespace Venta.Infrastructure
                     //options.Timeout = TimeSpan.FromMilliseconds(5000);
                 }
                 ).SetHandlerLifetime(TimeSpan.FromMinutes(5))
-                .AddPolicyHandler(GetRetryPolicy());
-                //.AddPolicyHandler(GetCircuitBreakerPolicy());
+                //.AddPolicyHandler(GetRetryPolicy());
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
 
 
             services.AddDbContext<VentaDbContext>(
@@ -59,14 +59,18 @@ namespace Venta.Infrastructure
         {
             Action<DelegateResult<HttpResponseMessage>, TimeSpan> onBreak = (result, timeSpan) =>
             {
+                //Camino altenativo para llamar a otro servicio failure o publicar en una cola(topico kafka)
                 Console.WriteLine(result);
-            }
-            ;
+            };
+
+
             Action onReset = null;
+
+
             return HttpPolicyExtensions                
                 .HandleTransientHttpError()
-                .OrTransientHttpError()
-                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30),
+                .OrResult(c => !c.IsSuccessStatusCode)
+                .CircuitBreakerAsync(3, TimeSpan.FromSeconds(30),
                 onBreak, onReset
                 );
 
