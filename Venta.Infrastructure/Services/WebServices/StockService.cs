@@ -19,15 +19,22 @@ namespace Venta.Infrastructure.Services.WebServices
 
         public async Task<bool> ActualizarStock(int idProducto, int cantidad)
         {
-            using var request = new HttpRequestMessage(HttpMethod.Put, "api/productos/reservar");
+            //try
+           // {
+                using var request = new HttpRequestMessage(HttpMethod.Put, "api/productos/reservar");
 
-            var entidadSerializada = JsonSerializer.Serialize(new { IdProducto = idProducto, Cantidad = cantidad });
-            request.Content = new StringContent(entidadSerializada, Encoding.UTF8, MediaTypeNames.Application.Json );
+                var entidadSerializada = JsonSerializer.Serialize(new { IdProducto = idProducto, Cantidad = cantidad });
+                request.Content = new StringContent(entidadSerializada, Encoding.UTF8, MediaTypeNames.Application.Json);
 
-            var response =  await _httpClientStocks.SendAsync(request);
+                var response = await _httpClientStocks.SendAsync(request);
 
-            return response.IsSuccessStatusCode;
+                return response.IsSuccessStatusCode;
+            }
+           // catch(Exception ex)
+           // {
+           //     return false;
+           // }
     
-        }
+      //  }
     }
 }
