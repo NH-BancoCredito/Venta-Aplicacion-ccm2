@@ -36,8 +36,9 @@ namespace Venta.Infrastructure
                     //options.Timeout = TimeSpan.FromMilliseconds(5000);
                 }
                 ).SetHandlerLifetime(TimeSpan.FromMinutes(5))
-                //.AddPolicyHandler(GetRetryPolicy());
-                .AddPolicyHandler(GetCircuitBreakerPolicy());
+                .AddPolicyHandler(GetRetryPolicy())
+                .AddPolicyHandler(GetCircuitBreakerPolicy())
+                .AddPolicyHandler(GetBulkHeadPolicy());
 
 
             services.AddDbContext<VentaDbContext>(
@@ -75,6 +76,11 @@ namespace Venta.Infrastructure
                 );
 
 
+        }
+
+        private static IAsyncPolicy<HttpResponseMessage> GetBulkHeadPolicy()
+        {
+            return Policy.BulkheadAsync<HttpResponseMessage>(1000, int.MaxValue);
         }
 
 
