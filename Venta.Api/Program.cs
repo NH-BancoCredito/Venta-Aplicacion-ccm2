@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Steeltoe.Extensions.Configuration.ConfigServer;
 using System.Runtime.CompilerServices;
 using Venta.Api;
+using Venta.Api.Configurations;
 using Venta.Api.Middleware;
 using Venta.Application;
 using Venta.Infrastructure;
@@ -30,6 +32,7 @@ builder.Services.AddApplication();
 var connectionString = builder.Configuration["dbVenta-cnx"];
 builder.Services.AddInfraestructure(builder.Configuration);
 builder.Services.AddAthenticationByJWT();
+builder.Services.AddHealthCheckConfiguration(builder.Configuration);
 
 
 var app = builder.Build();
@@ -45,6 +48,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseHealthCheckConfiguration();
 
 
 //Adicionar middleware customizado para tratar las excepciones
