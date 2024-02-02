@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Venta.Application.CasosUso.AdministrarProductos.ActualizarProducto;
 using Venta.Application.CasosUso.AdministrarProductos.ConsultarProductos;
@@ -8,6 +9,7 @@ namespace Venta.Api.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductosController : ControllerBase
     {
         private readonly IMediator _mediator;
