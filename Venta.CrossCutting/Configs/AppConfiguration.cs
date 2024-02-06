@@ -33,7 +33,25 @@ namespace Venta.CrossCutting.Configs
             private set { }
         }
 
+        public string LogMongoServerDB
+        {
+            get
+            {
+                return _configInfo["log-mongo-server-db"];
+            }
+            private set { }
+        }
 
-       
+        public string LogMongoDbCollection
+        {
+            get
+            {
+                return _configInfo["log-mongo-db-collection"];
+            }
+            private set { }
+        }
+
+
+
     }
 }

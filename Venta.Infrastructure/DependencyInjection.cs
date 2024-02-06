@@ -18,6 +18,7 @@ using System.Net;
 using Polly.Extensions.Http;
 using Polly;
 using Polly.CircuitBreaker;
+using Serilog;
 
 namespace Venta.Infrastructure
 {
@@ -46,6 +47,8 @@ namespace Venta.Infrastructure
                 );
 
             services.AddRepositories(Assembly.GetExecutingAssembly());
+
+            services.AddLogger(appConfiguration.LogMongoServerDB, appConfiguration.LogMongoDbCollection);
         }
 
         private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
@@ -102,6 +105,20 @@ namespace Venta.Infrastructure
 
                 services.AddScoped(repositoryInterfaceType, repositoryType);
             }
+        }
+
+        public static void AddLogger(this IServiceCollection services, string connectionStringDbLog, string collectionName)
+        {
+            var serilogLogger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.MongoDB(connectionStringDbLog, collectionName: collectionName)
+                .CreateLogger();
+
+
+            services.AddLogging(builder =>
+            {
+                builder.AddSerilog(logger: serilogLogger, dispose: true);
+            });
         }
 
 
