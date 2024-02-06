@@ -110,6 +110,8 @@ namespace Venta.Infrastructure
         public static void AddLogger(this IServiceCollection services, string connectionStringDbLog, string collectionName)
         {
             var serilogLogger = new LoggerConfiguration()
+                //.MinimumLevel.Error()
+                .MinimumLevel.Information()
                 .Enrich.FromLogContext()
                 .WriteTo.MongoDB(connectionStringDbLog, collectionName: collectionName)
                 .CreateLogger();

@@ -1,10 +1,12 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Venta.Application.CasosUso.AdministrarProductos.ConsultarProductos;
 
 namespace Venta.Application.Common
 {
@@ -14,10 +16,12 @@ namespace Venta.Application.Common
     {
 
         private readonly IEnumerable<IValidator<TRequest>> _validators;
+        private readonly ILogger _logger;
 
-        public RequestValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
+        public RequestValidationBehavior(IEnumerable<IValidator<TRequest>> validators, ILogger<ValidationException> logger)
         {
             _validators = validators;
+            _logger = logger;
         }
         public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
@@ -33,7 +37,9 @@ namespace Venta.Application.Common
 
                 if (failures.Count != 0)
                 {
-                    throw new ValidationException(failures);                    
+                    var exception = new ValidationException(failures);
+                    _logger.LogError(exception, failures.ToString());
+                    throw exception;                    
                 }
             }
 

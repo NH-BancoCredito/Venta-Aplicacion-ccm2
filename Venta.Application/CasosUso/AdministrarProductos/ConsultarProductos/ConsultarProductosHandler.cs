@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta;
 using Venta.Application.Common;
 using Venta.Domain.Repositories;
 
@@ -15,11 +17,15 @@ namespace Venta.Application.CasosUso.AdministrarProductos.ConsultarProductos
     {
         private readonly IProductoRepository _productoRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
-        public ConsultarProductosHandler(IProductoRepository productoRepository, IMapper mapper)
+        public ConsultarProductosHandler(IProductoRepository productoRepository, IMapper mapper
+            , ILogger<ConsultarProductosHandler> logger
+            )
         {
             _productoRepository = productoRepository;
             _mapper = mapper;
+            _logger = logger;
         }
        
 
@@ -40,6 +46,7 @@ namespace Venta.Application.CasosUso.AdministrarProductos.ConsultarProductos
             }
             catch(Exception ex)
             {
+                _logger.LogError(ex, ex.Message);
                 response = new FailureResult();
                 return response;
             }
