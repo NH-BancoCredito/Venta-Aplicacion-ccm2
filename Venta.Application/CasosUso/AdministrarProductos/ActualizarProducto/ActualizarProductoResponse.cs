@@ -8,5 +8,8 @@ namespace Venta.Application.CasosUso.AdministrarProductos.ActualizarProducto
 {
     public class ActualizarProductoResponse
     {
+        public bool ProductoActualizado { get; set; }
+
+        public string Mensages { get; set; }
     }
 }

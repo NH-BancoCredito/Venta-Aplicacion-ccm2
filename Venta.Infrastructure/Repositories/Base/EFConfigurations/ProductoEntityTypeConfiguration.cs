@@ -16,7 +16,7 @@ namespace Venta.Infrastructure.Repositories.Base.EFConfigurations
 		{
 			builder.ToTable("Producto");
 			builder.HasKey(c => c.IdProducto);
-			builder.Property(c => c.PrecioUnitario).HasPrecision(2);
+			builder.Property(c => c.PrecioUnitario).HasPrecision(10,2);
 
 			builder.HasOne(p => p.Categoria).WithMany(p => p.Productos)
 				.HasForeignKey(p => p.IdCategoria);

@@ -18,6 +18,7 @@ namespace Venta.Infrastructure.Repositories.Base.EFConfigurations
             builder.ToTable("Venta");
             builder.HasKey(c => c.IdVenta);
             builder.HasOne(p => p.Cliente).WithMany(p => p.Ventas).HasForeignKey(p => p.IdCliente);
+
         }
         public void Configure(EntityTypeBuilder<VentaDetalle> builder)
         {

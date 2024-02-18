@@ -19,9 +19,20 @@ namespace Venta.Infrastructure.Repositories
         }
 
 
-        public Task<bool> Adicionar(Producto entity)
+        public async Task<bool> Adicionar(Producto entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Productos.Add(entity);
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+
+            }
         }
 
         public async Task<Producto> Consultar(int id)
@@ -39,10 +50,28 @@ namespace Venta.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<bool> Modificar(Producto entity)
+        public async Task<bool> Modificar(Producto entity)
         {
-            //return await _context.Up (id);
-            throw new NotImplementedException();
+            try
+            {
+                Producto p = await _context.Productos.FindAsync(entity.IdProducto);
+
+                p.Nombre = entity.Nombre;
+                p.Stock = entity.Stock;
+                p.StockMinimo = entity.StockMinimo;
+                p.PrecioUnitario = entity.PrecioUnitario;
+                p.IdCategoria = entity.IdCategoria;
+
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+
+            }
+
         }
     }
 }

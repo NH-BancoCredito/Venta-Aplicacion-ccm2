@@ -16,6 +16,8 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
 
         public IEnumerable<RegistrarVentaDetalleRequest> Productos { get; set; }
 
+        public RegistrarPagoRequest Pago { get; set; }
+
     }
 
     public class RegistrarVentaDetalleRequest
@@ -24,6 +26,15 @@ namespace Venta.Application.CasosUso.AdministrarVentas.RegistrarVenta
 
         public int Cantidad { get; set; }
 
+
+    }
+
+    public class RegistrarPagoRequest
+    {
+
+        public int IdTipoFormaPago { get; set; }
+
+        public int NumeroCuotas { get; set; }
 
     }
 

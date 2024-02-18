@@ -30,6 +30,7 @@ namespace Venta.Infrastructure.Repositories.Base
 
         public virtual DbSet<Domain.Models.Venta> Ventas { get; set; }
 
+        public virtual DbSet<Domain.Models.TipoFormaPago> TipoFormasPago { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

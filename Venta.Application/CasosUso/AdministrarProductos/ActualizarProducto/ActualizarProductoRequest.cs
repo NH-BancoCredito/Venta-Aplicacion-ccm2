@@ -1,12 +1,14 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Venta.Application.Common;
 
 namespace Venta.Application.CasosUso.AdministrarProductos.ActualizarProducto
 {
-    public class ActualizarProductoRequest
+    public class ActualizarProductoRequest : IRequest<IResult>
     {
         public int IdProducto { get; set; }
         public string Nombre { get; set; }

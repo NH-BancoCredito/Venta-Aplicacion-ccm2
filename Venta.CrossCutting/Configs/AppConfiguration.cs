@@ -33,6 +33,24 @@ namespace Venta.CrossCutting.Configs
             private set { }
         }
 
+        public string UrlBaseServicioPagos
+        {
+            get
+            {
+                return _configInfo["url-base-servicio-pagos"];
+            }
+            private set { }
+        }
+
+        public string UrlKafkaServer
+        {
+            get
+            {
+                return _configInfo["url-kafka-server"];
+            }
+            private set { }
+        }
+
         public string LogMongoServerDB
         {
             get
